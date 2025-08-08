@@ -1,7 +1,58 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\WisataController;
+use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\LayananController;
 use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\Admin\DashboardController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [BerandaController::class, 'index'])->name('dashboard');
+
+    // contoh lainnya
+    // Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
+    Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
+    // dst...
+});
+
+Route::get('/', function () {
+    return view('pages.beranda');
+});
+
+Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
+Route::get('/upload-berita', function () {
+    return view('upload');
+});
+// route beranda
+Route::get('/', [BerandaController::class, 'index'])->name('beranda');
+
+// Rute untuk berita 
+Route::resource('/berita', BeritaController::class);
+
+// Rute untuk wisata 
+Route::resource('wisata', WisataController::class);
+
+// route galeri
+Route::resource('galeri', GaleriController::class);
+
+// route layanan
+Route::resource('layanan', LayananController::class);
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +68,9 @@ use App\Http\Controllers\BerandaController;
 // ===============================
 // Routing Halaman Umum (Pengunjung)
 // ===============================
-Route::get('/', [BerandaController::class, 'index']);
+Route::get('/', function () {
+    return view('pages.beranda');
+});
 
 Route::get('/profil', function () {
     return view('pages.profil');
